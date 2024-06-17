@@ -62,16 +62,8 @@ def validate_raw_tables(session):
         print('{}: \n\t{}\n'.format(tname, session.table('RAW_CUSTOMER.{}'.format(tname)).columns))
 
 
-# For local debugging
 if __name__ == "__main__":
-
-    connection_parameters = {
-        "account": "pcggqyd-mw94644",
-        "user": "dgoyal",
-        "password": "Deepak@123",
-        "role": "HOL_ROLE",  
-        "warehouse": "HOL_WH", 
-        "database": "HOL_DB"  
-    }
-    session = Session.builder.configs(connection_parameters).create()
-    load_all_raw_tables(session)
+    # Create a local Snowpark session
+    with Session.builder.getOrCreate() as session:
+        load_all_raw_tables(session)
+#        validate_raw_tables(session)

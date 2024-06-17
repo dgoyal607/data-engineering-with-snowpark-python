@@ -105,18 +105,9 @@ def test_pos_view(session):
     tv.limit(5).show()
 
 
-# For local debugging
 if __name__ == "__main__":
-
-    connection_parameters = {
-        "account": "pcggqyd-mw94644",
-        "user": "dgoyal",
-        "password": "Deepak@123",
-        "role": "HOL_ROLE",  
-        "warehouse": "HOL_WH", 
-        "database": "HOL_DB"  
-    }
-    session = Session.builder.configs(connection_parameters).create()
-    create_pos_view(session)
-    create_pos_view_stream(session)
+    # Create a local Snowpark session
+    with Session.builder.getOrCreate() as session:
+        create_pos_view(session)
+        create_pos_view_stream(session)
 
