@@ -24,6 +24,7 @@ def create_pos_view(session):
                                                                 F.col("UNIT_PRICE"), \
                                                                 F.col("PRICE"), \
                                                                 F.col("ORDER_ID"))
+    
     order_header = session.table("RAW_POS.ORDER_HEADER").select(F.col("ORDER_ID"), \
                                                                 F.col("TRUCK_ID"), \
                                                                 F.col("ORDER_TS"), \
@@ -106,8 +107,16 @@ def test_pos_view(session):
 
 # For local debugging
 if __name__ == "__main__":
-    # Create a local Snowpark session
-    with Session.builder.getOrCreate() as session:
-        create_pos_view(session)
-        create_pos_view_stream(session)
-#        test_pos_view(session)
+
+    connection_parameters = {
+        "account": "pcggqyd-mw94644",
+        "user": "dgoyal",
+        "password": "Deepak@123",
+        "role": "HOL_ROLE",  
+        "warehouse": "HOL_WH", 
+        "database": "HOL_DB"  
+    }
+    session = Session.builder.configs(connection_parameters).create()
+    create_pos_view(session)
+    create_pos_view_stream(session)
+
